@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner Pro</title>
+
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <div class="logo-wrapper">
+                <img src="logo.png" alt="Logo" class="header-logo">
+                <div class="logo-text">
+                    <h1 class="site-title">QR Scanner Pro</h1>
+                    <span class="site-desc" data-i18n="header_desc">สแกนและสร้างคิวอาร์โค้ดได้ทันที</span>
+                </div>
+            </div>
+
+            <nav>
+                <ul>
+                    <li>
+                        <button id="donateBtn" class="donate-btn-header">
+                            ☕ <span data-i18n="nav_donate">เลี้ยงกาแฟ</span>
+                        </button>
+                    </li>
+                    
+                    <li><a href="#" data-i18n="nav_home">หน้าแรก</a></li>
+                    <li><a href="#how-to" data-i18n="nav_howto">วิธีใช้งาน</a></li>
+                    
+                    <li>
+                        <button id="lang-toggle" onclick="toggleLanguage()">
+                            <span id="current-lang">EN</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="tool-wrapper">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('scan')" data-i18n="tab_scan">
+                    📸 สแกน QR
+                </button>
+                <button class="tab-btn" onclick="switchTab('generate')" data-i18n="tab_generate">
+                    ✨ สร้าง QR
+                </button>
+            </div>
+
+            <div class="tool-content">
+
+                <div id="scan-section">
+                    <div id="reader-wrapper">
+                        <div id="reader"></div>
+                    </div>
+
+                    <div class="camera-controls">
+                        <button id="cam-toggle-btn" class="cam-btn start" onclick="toggleCamera()">
+                            </button>
+
+                        <button class="cam-btn upload" onclick="triggerUpload()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span data-i18n="btn_upload">อัปโหลดรูป</span>
+                        </button>
+                        <input type="file" id="qr-input-file" accept="image/*" style="display:none"
+                            onchange="scanFromFile(this)">
+                    </div>
+
+                    <div id="scan-result" class="hidden">
+                        <strong data-i18n="result_label">ผลลัพธ์:</strong> <span id="scan-result-text">-</span>
+                    </div>
+                </div>
+
+                <div id="generate-section" class="hidden">
+                    <div class="form-group">
+                        <label for="qr-text" data-i18n="label_text">ข้อความ หรือ URL:</label>
+                        <textarea id="qr-text" rows="4" placeholder="พิมพ์ข้อความที่นี่..."></textarea>
+                    </div>
+
+                    <div class="generate-btn-wrapper">
+                        <button id="generate-btn" onclick="generateQR()">
+                            <span data-i18n="btn_create">✨สร้าง QR Code</span>
+                        </button>
+                    </div>
+
+                    <div id="qrcode-output-container" class="hidden">
+                        <div id="qrcode-output"></div>
+                        <p data-i18n="save_hint">บันทึกรูปภาพเพื่อนำไปใช้งาน</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <section id="how-to" class="info-section">
+        <div class="container">
+            <h2 data-i18n="howto_title">วิธีใช้งาน</h2>
+            <div class="grid-3">
+                <div class="feature-box">
+                    <h3 data-i18n="step1_title">1. เลือกโหมด</h3>
+                    <p data-i18n="step1_desc">กดเลือกเมนูว่าต้องการสแกน หรือต้องการสร้างคิวอาร์โค้ดใหม่</p>
+                </div>
+                <div class="feature-box">
+                    <h3 data-i18n="step2_title">2. สั่งงาน</h3>
+                    <p data-i18n="step2_desc">หากสแกน ให้นำกล้องไปจ่อที่ภาพ หากสร้าง ให้พิมพ์ข้อความแล้วกดปุ่ม</p>
+                </div>
+                <div class="feature-box">
+                    <h3 data-i18n="step3_title">3. รับผลลัพธ์</h3>
+                    <p data-i18n="step3_desc">ระบบจะทำงานทันทีบน Browser ของคุณ ปลอดภัยและรวดเร็ว</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 QR Scanner Pro. All rights reserved.</p>
+            <p style="font-size: 0.8rem; opacity: 0.7;" data-i18n="footer_credit">พัฒนาโดย ยุทธนา ภูมามอบ</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

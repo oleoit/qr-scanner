@@ -1,0 +1,430 @@
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+:root {
+    --primary-color: #2563eb;       
+    --bg-light: #f3f4f6;            
+    --text-dark: #1f2937;           
+    --white: #ffffff;
+
+    /* Button Styles */
+    --btn-gradient-primary: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+    --btn-gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #4338ca 100%);
+    --danger-text: #ef4444;
+    --danger-bg-hover: #fef2f2;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* =========================================
+   2. HEADER & NAVIGATION
+   ========================================= */
+header {
+    background-color: var(--white);
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo Layout */
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.site-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #111827; 
+    letter-spacing: -0.5px;
+}
+
+.site-desc {
+    font-size: 0.8rem;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+/* Navigation & Buttons */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+nav a:hover {
+    color: var(--primary-color);
+}
+
+/* Language Toggle Button */
+#lang-toggle {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#lang-toggle:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Donate Button Style */
+.donate-btn-header {
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 6px 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 5px rgba(245, 124, 0, 0.3);
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.donate-btn-header:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(245, 124, 0, 0.4);
+}
+
+/* =========================================
+   3. TOOL CARD (MAIN UI)
+   ========================================= */
+.tool-wrapper {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    min-height: 550px;
+    margin-bottom: 40px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #eee;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 18px;
+    border: none;
+    background: #f9fafb;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    background: var(--white);
+    color: var(--primary-color);
+    border-top: 4px solid var(--primary-color);
+}
+
+.tab-btn:hover:not(.active) {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.tool-content {
+    padding: 30px;
+}
+
+/* =========================================
+   4. SCANNER SECTION
+   ========================================= */
+#reader-wrapper {
+    width: 100%;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    min-height: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#reader video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.camera-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+}
+
+.cam-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.cam-btn:active { transform: scale(0.98); }
+.cam-btn svg { width: 20px; height: 20px; }
+
+/* Start Button */
+.cam-btn.start {
+    background: var(--btn-gradient-primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+.cam-btn.start:hover {
+    background: var(--btn-gradient-hover);
+    transform: translateY(-2px);
+}
+
+/* Stop Button */
+.cam-btn.stop {
+    background: white;
+    color: var(--danger-text);
+    border: 2px solid #fee2e2;
+}
+.cam-btn.stop:hover {
+    background: var(--danger-bg-hover);
+    border-color: var(--danger-text);
+}
+
+/* Upload Button */
+.cam-btn.upload {
+    background: white;
+    color: #4b5563;
+    border: 1px solid #e5e7eb;
+}
+.cam-btn.upload:hover {
+    background: #f9fafb;
+    border-color: #d1d5db;
+    color: #111827;
+    transform: translateY(-2px);
+}
+
+#scan-result {
+    padding: 20px;
+    background: #ecfdf5;
+    color: #065f46;
+    border-radius: 8px;
+    text-align: center;
+    border: 1px solid #a7f3d0;
+    word-break: break-all;
+    font-size: 1.1rem;
+}
+
+/* =========================================
+   5. GENERATOR SECTION
+   ========================================= */
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.generate-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#generate-btn {
+    width: auto;
+    min-width: 200px; 
+    padding: 12px 30px;
+    background: var(--btn-gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+#generate-btn:hover {
+    background: var(--btn-gradient-hover);
+    transform: translateY(-2px);
+}
+
+/* QR Output */
+#qrcode-output-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9fafb;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#qrcode-output canvas {
+    border: 8px solid white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    max-width: 100%;
+}
+
+#qrcode-output-container p {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+/* =========================================
+   6. UTILITIES & FOOTER
+   ========================================= */
+.hidden { display: none !important; }
+
+.info-section {
+    padding: 60px 0;
+    background-color: white;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+
+.info-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 40px;
+    font-size: 2rem;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    text-align: left;
+}
+
+.feature-box {
+    background: #f9fafb;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+}
+
+.feature-box:hover { transform: translateY(-5px); }
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+    margin-top: auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .nav-container { flex-direction: column; gap: 10px; }
+    .tool-content { padding: 20px; }
+    .grid-3 { text-align: center; }
+    .donate-btn-header span { display: inline-block; } 
+}
+@media (max-width: 400px) {
+    .donate-btn-header span { display: none; } /* ซ่อนข้อความเหลือแต่รูปแก้ว ถ้าจอเล็กมาก */
+}
