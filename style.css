@@ -428,3 +428,22 @@ footer {
 @media (max-width: 400px) {
     .donate-btn-header span { display: none; } /* ซ่อนข้อความเหลือแต่รูปแก้ว ถ้าจอเล็กมาก */
 }
+
+/* ซ่อนกล่องผลลัพธ์เดิม เพราะตอนนี้ใช้ Popup แทนแล้ว */
+#scan-result {
+    display: none !important;
+}
+
+/* ปรับแต่งปุ่มใน Popup ผลลัพธ์ให้กว้างสวยงาม */
+.scan-result-actions {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.scan-result-actions button {
+    flex: 1; /* ขยายปุ่มให้เต็มพื้นที่เท่าๆ กัน */
+    padding: 12px !important;
+    font-size: 1rem !important;
+}

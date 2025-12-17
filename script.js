@@ -200,23 +200,142 @@ function scanFromFile(inputElement) {
     }
 }
 
+// ฟังก์ชันเช็คว่าเป็น URL หรือไม่ (เพื่อตัดสินใจว่าจะโชว์ปุ่ม "เปิดลิงก์" ไหม)
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (_) {
+        return false;  
+    }
+}
+
 // 4. COMMON SUCCESS HANDLER (พร้อมแก้ภาษาต่างดาว)
 function onScanSuccess(decodedText) {
     console.log(`Scan Result (Raw): ${decodedText}`);
     
-    let finalText = decodedText;
-    try {
-        // แก้ภาษาต่างดาว: แปลง Latin-1 กลับเป็น UTF-8
-        finalText = decodeURIComponent(escape(decodedText));
-    } catch (err) {
-        console.log("Using raw text (encoding fix not needed/failed)");
+    // 1. หยุดกล้องทันทีที่เจอ QR Code
+    if (isScanning) {
+        stopScanner();
     }
 
-    const resultContainer = document.getElementById('scan-result');
-    const resultText = document.getElementById('scan-result-text');
+    // 2. แก้ภาษาต่างดาว (Decode Latin-1 to UTF-8)
+    let finalText = decodedText;
+    try {
+        finalText = decodeURIComponent(escape(decodedText));
+    } catch (err) {
+        console.log("Using raw text");
+    }
 
-    resultText.innerText = finalText;
-    resultContainer.classList.remove('hidden');
+    // 3. ตรวจสอบว่าเป็น Link หรือไม่
+    const isLink = isValidUrl(finalText) || finalText.startsWith('http') || finalText.startsWith('www');
+
+    // 4. แสดง Popup ผลลัพธ์
+    Swal.fire({
+        title: currentLang === 'th' ? 'ผลการสแกน' : 'Scan Result',
+        // สร้าง HTML เอง เพื่อคุมปุ่มไม่ให้ปิด Popup
+        html: `
+            <div style="text-align: left; margin-bottom: 5px; font-weight: bold; color: #333;">
+                ${currentLang === 'th' ? 'เนื้อหา' : 'Content'}
+            </div>
+            <div style="
+                background: #f4f4f5; 
+                padding: 15px; 
+                border-radius: 10px; 
+                color: #1f2937; 
+                font-size: 1rem; 
+                word-break: break-all;
+                text-align: left;
+                border: 1px solid #e5e7eb;
+                margin-bottom: 20px;
+                max-height: 200px;
+                overflow-y: auto;
+            ">
+                ${finalText}
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btn-copy" style="
+                    flex: 1;
+                    padding: 12px;
+                    border: none;
+                    border-radius: 6px;
+                    background-color: #9ca3af;
+                    color: white;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: 0.2s;
+                ">
+                    <i class="far fa-copy"></i> ${currentLang === 'th' ? 'คัดลอก' : 'Copy'}
+                </button>
+
+                ${isLink ? `
+                <button id="btn-open" style="
+                    flex: 1;
+                    padding: 12px;
+                    border: none;
+                    border-radius: 6px;
+                    background-color: #65a30d;
+                    color: white;
+                    font-size: 1rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 8px;
+                    transition: 0.2s;
+                ">
+                    <i class="fas fa-external-link-alt"></i> ${currentLang === 'th' ? 'เปิดลิงก์' : 'Open'}
+                </button>
+                ` : ''}
+            </div>
+        `,
+        showConfirmButton: false, // ปิดปุ่ม OK มาตรฐาน
+        showCancelButton: false,  // ปิดปุ่ม Cancel มาตรฐาน
+        showCloseButton: true,    // ✅ โชว์ปุ่มกากบาท (X) มุมขวาบน
+        allowOutsideClick: false, // ห้ามกดพื้นหลังเพื่อปิด
+        
+        // สั่งงานปุ่มที่เราสร้างเอง
+        didOpen: () => {
+            // ตั้งค่าปุ่ม Copy
+            const btnCopy = document.getElementById('btn-copy');
+            if(btnCopy) {
+                btnCopy.addEventListener('click', () => {
+                    navigator.clipboard.writeText(finalText).then(() => {
+                        // เปลี่ยนสีและข้อความปุ่มชั่วคราว
+                        const originalText = btnCopy.innerHTML;
+                        btnCopy.innerHTML = `<i class="fas fa-check"></i> ${currentLang === 'th' ? 'เรียบร้อย' : 'Copied'}`;
+                        btnCopy.style.backgroundColor = '#10b981'; // สีเขียว
+                        
+                        setTimeout(() => {
+                            btnCopy.innerHTML = originalText;
+                            btnCopy.style.backgroundColor = '#9ca3af'; // กลับสีเทา
+                        }, 1500);
+                    });
+                });
+            }
+
+            // ตั้งค่าปุ่ม Open Link
+            const btnOpen = document.getElementById('btn-open');
+            if(btnOpen) {
+                btnOpen.addEventListener('click', () => {
+                    window.open(finalText, '_blank');
+                });
+            }
+        }
+    }).then((result) => {
+        // --------------------------------------------------------
+        // เช็คว่า Popup ถูกปิดลงหรือไม่ (กด X หรือกด ESC)
+        // --------------------------------------------------------
+        if (result.isDismissed) {
+            console.log("Popup closed, restarting scanner...");
+            startScanner(); // เปิดกล้องใหม่อีกครั้งทันที
+        }
+    });
 }
 
 // 5. GENERATOR LOGIC (ใช้ node-qrcode รองรับภาษาไทยสมบูรณ์)
