@@ -7,7 +7,7 @@ const translations = {
     th: {
         nav_home: "หน้าแรก",
         nav_howto: "วิธีใช้งาน",
-        nav_donate: "เลี้ยงกาแฟ",
+        nav_donate: "เลี้ยงกาแฟผู้พัฒนา",
         tab_scan: "📸 สแกน QR",
         tab_generate: "✨ สร้าง QR",
         btn_open_cam: "เปิดกล้อง",
@@ -373,48 +373,40 @@ function generateQR() {
     });
 }
 
-// 6. DONATE BUTTON LOGIC (PromptPay + Ko-fi)
+// 6. DONATE BUTTON LOGIC (PromptPay Image + Ko-fi)
 function setupDonateButton() {
     const donateBtn = document.getElementById('donateBtn');
     
     if (donateBtn) {
         donateBtn.addEventListener('click', () => {
             // ========================================================
-            // ⚠️ ข้อมูลของคุณ
+            // ⚠️ ตั้งค่าตรงนี้
             // ========================================================
-            const myPromptPay = "0825559797";      
-            const myKofiUrl = "https://ko-fi.com/yutthana"; // อย่าลืมใส่ URL ของคุณ
+            // ใส่ชื่อไฟล์รูปที่คุณเตรียมไว้ (ต้องวางไฟล์ไว้ที่เดียวกับ index.html)
+            const promptpayImage = "promptpay.jpeg"; 
             
-            // เพิ่มชื่อบัญชีตรงนี้
-            const myNameTH = "ยุทธนา ภูมามอบ";
-            const myNameEN = "Yutthana Pumamob";
+            const myKofiUrl = "https://ko-fi.com/yutthana"; 
             // ========================================================
 
             Swal.fire({
                 title: currentLang === 'th' ? '☕ เลี้ยงกาแฟผู้พัฒนา' : '☕ Buy me a coffee',
                 html: `
-                    <div style="text-align: center; font-size: 0.95rem; color: #555; margin-bottom: 20px;">
-                        ${currentLang === 'th' 
-                            ? 'เลือกช่องทางที่คุณสะดวกได้เลยครับ ^^' 
-                            : 'Choose your preferred payment method'}
+                    <div style="text-align: center; margin-bottom: 15px; font-size: 0.9rem; color: #666;">
+                        ${currentLang === 'th' ? 'สแกน QR เพื่อสนับสนุนผ่าน PromptPay' : 'Scan QR to support via PromptPay'}
                     </div>
 
-                    <div style="background: #f0fdf4; padding: 15px; border-radius: 12px; border: 1px dashed #22c55e; margin-bottom: 15px;">
-                        <div style="font-weight: bold; color: #15803d; margin-bottom: 5px;">
-                            <i class="fas fa-qrcode"></i> Thai PromptPay
-                        </div>
-                        <img src="https://promptpay.io/${myPromptPay}" style="width: 180px; mix-blend-mode: multiply;">
-                        
-                        <div style="font-size: 0.9rem; font-weight: bold; color: #333; margin-top: 8px;">
-                            PromptPay: ${myPromptPay}
-                        </div>
-                        
-                        <div style="font-size: 0.85rem; color: #666;">
-                            ${currentLang === 'th' ? 'ชื่อ: ' + myNameTH : 'Name: ' + myNameEN}
-                        </div>
+                    <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                        <img src="${promptpayImage}" 
+                             alt="PromptPay QR" 
+                             style="
+                                width: 100%; 
+                                max-width: 350px; /* กำหนดขนาดไม่ให้ใหญ่เกินไป */
+                                border-radius: 12px; /* มุมโค้งมน */
+                                box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* เงาสวยๆ */
+                             ">
                     </div>
 
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0;">
                         <div style="height: 1px; background: #ddd; flex: 1;"></div>
                         <span style="color: #999; font-size: 0.8rem;">OR</span>
                         <div style="height: 1px; background: #ddd; flex: 1;"></div>
@@ -444,13 +436,13 @@ function setupDonateButton() {
                 `,
                 showConfirmButton: false,
                 showCloseButton: true,
-                width: 480, // ใช้ขนาดกว้างหน่อย ข้อความจะได้ไม่ตกบรรทัด
-                padding: '20px'
+                width: 480, // ปรับความกว้างให้พอดีกับรูป
+                padding: '20px',
+                background: '#fff'
             });
         });
     }
 }
-
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
     updateText();
