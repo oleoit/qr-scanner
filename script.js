@@ -26,7 +26,8 @@ const translations = {
         step3_title: "3. รับผลลัพธ์",
         step3_desc: "ระบบจะทำงานทันทีบน Browser ของคุณ ปลอดภัยและรวดเร็ว",
         header_desc: "สแกนและสร้างคิวอาร์โค้ดได้ทันที Free 100%",
-        footer_credit: "พัฒนาโดย ยุทธนา ภูมามอบ"
+        footer_credit: "พัฒนาโดย ยุทธนา ภูมามอบ",
+        btn_download: "ดาวน์โหลดรูปภาพ",
     },
     en: {
         nav_home: "Home",
@@ -50,7 +51,8 @@ const translations = {
         step3_title: "3. Result",
         step3_desc: "Works instantly on your browser. Secure and fast.",
         header_desc: "Scan and Generate QR Codes instantly Free 100%",
-        footer_credit: "Developed by Yutthana Pumamob"
+        footer_credit: "Developed by Yutthana Pumamob",
+        btn_download: "Download Image",
     }
 };
 
@@ -343,6 +345,7 @@ function generateQR() {
     const inputText = document.getElementById('qr-text').value;
     const container = document.getElementById('qrcode-output');
     const wrapper = document.getElementById('qrcode-output-container');
+    const downloadBtn = document.getElementById('btn-download-qr');
 
     if (!inputText.trim()) {
         alert("กรุณาพิมพ์ข้อความก่อน");
@@ -351,6 +354,7 @@ function generateQR() {
 
     container.innerHTML = ""; 
     wrapper.classList.remove('hidden');
+    downloadBtn.classList.add('hidden');
 
     const canvas = document.createElement('canvas');
     container.appendChild(canvas);
@@ -369,6 +373,7 @@ function generateQR() {
             alert("เกิดข้อผิดพลาดในการสร้าง QR Code");
         } else {
             console.log('สร้าง QR Code สำเร็จ!');
+            downloadBtn.classList.remove('hidden');
         }
     });
 }
@@ -443,6 +448,22 @@ function setupDonateButton() {
         });
     }
 }
+
+function downloadQR() {
+    // หา Canvas ที่ถูกสร้างขึ้น
+    const canvas = document.querySelector('#qrcode-output canvas');
+    
+    if (canvas) {
+        // สร้าง Link จำลองเพื่อกดดาวน์โหลด
+        const link = document.createElement('a');
+        link.download = 'qrcode-' + Date.now() + '.png'; // ตั้งชื่อไฟล์ (แถม timestamp กันชื่อซ้ำ)
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    } else {
+        alert("ไม่พบรูปภาพ QR Code");
+    }
+}
+
 // Initial Run
 document.addEventListener('DOMContentLoaded', () => {
     updateText();

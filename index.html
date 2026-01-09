@@ -20,7 +20,28 @@
 <body>
 
     <header>
-        <div class="container nav-container">
+        <div class="container nav-container" style="flex-wrap: wrap; gap: 10px;">
+        <div style="width: 100%; display: flex; justify-content: flex-start; margin-bottom: 5px;">
+            <a href="https://olelab.work/" style="text-decoration: none;">
+                <button style="
+                    background: #f0f2f5;
+                    color: #555;
+                    border: 1px solid #ddd;
+                    height: 36px;
+                    padding: 0 15px;
+                    border-radius: 18px;
+                    font-weight: bold;
+                    font-size: 0.85rem;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                ">
+                    <i class="fas fa-chevron-left"></i>
+                    <span data-i18n="nav_back_home">OLE Lab</span>
+                </button>
+            </a>
+        </div>
             <div class="logo-wrapper">
                 <img src="logo.png" alt="Logo" class="header-logo">
                 <div class="logo-text">
@@ -36,10 +57,10 @@
                             ☕ <span data-i18n="nav_donate">เลี้ยงกาแฟ</span>
                         </button>
                     </li>
-                    
+
                     <li><a href="#" data-i18n="nav_home">หน้าแรก</a></li>
                     <li><a href="#how-to" data-i18n="nav_howto">วิธีใช้งาน</a></li>
-                    
+
                     <li>
                         <button id="lang-toggle" onclick="toggleLanguage()">
                             <span id="current-lang">EN</span>
@@ -70,7 +91,7 @@
 
                     <div class="camera-controls">
                         <button id="cam-toggle-btn" class="cam-btn start" onclick="toggleCamera()">
-                            </button>
+                        </button>
 
                         <button class="cam-btn upload" onclick="triggerUpload()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -105,6 +126,9 @@
 
                     <div id="qrcode-output-container" class="hidden">
                         <div id="qrcode-output"></div>
+                        <button id="btn-download-qr" class="hidden" onclick="downloadQR()">
+                            <i class="fas fa-download"></i> <span data-i18n="btn_download">ดาวน์โหลดรูปภาพ</span>
+                        </button>
                         <p data-i18n="save_hint">บันทึกรูปภาพเพื่อนำไปใช้งาน</p>
                     </div>
                 </div>
@@ -142,4 +166,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

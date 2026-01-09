@@ -447,3 +447,30 @@ footer {
     padding: 12px !important;
     font-size: 1rem !important;
 }
+
+/* [เพิ่มส่วนนี้] สไตล์ปุ่มดาวน์โหลด */
+#btn-download-qr {
+    margin-top: 15px;
+    padding: 10px 25px;
+    background: #10b981; /* สีเขียว */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#btn-download-qr:hover {
+    background: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* ถ้ามีคลาส hidden ต้องซ่อน (ปกติมีใน utility อยู่แล้ว แต่อย่าลืมเช็ค) */
+.hidden { display: none !important; }
